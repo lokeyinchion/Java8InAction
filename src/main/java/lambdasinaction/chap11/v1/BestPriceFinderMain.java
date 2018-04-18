@@ -16,6 +16,11 @@ public class BestPriceFinderMain {
         execute("combined USD CompletableFuture v3", () -> bestPriceFinder.findPricesInUSD3("myPhone27S"));
     }
 
+    /**
+     * @desc 对外提供统一接口,处理方法由调用时传入的lambda决定,对方法的返回在execute方法体中统一处理
+     * @param msg
+     * @param s
+     */
     private static void execute(String msg, Supplier<List<String>> s) {
         long start = System.nanoTime();
         System.out.println(s.get());

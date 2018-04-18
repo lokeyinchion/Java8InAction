@@ -113,7 +113,7 @@ public class FilteringApples{
 	}
 
 	interface ApplePredicate{
-		public boolean test(Apple a);
+		boolean test(Apple a);
 	}
 
 	static class AppleWeightPredicate implements ApplePredicate{

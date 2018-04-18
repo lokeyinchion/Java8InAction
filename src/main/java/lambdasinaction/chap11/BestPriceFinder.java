@@ -17,13 +17,10 @@ public class BestPriceFinder {
                                                    new Shop("BuyItAll"),
                                                    new Shop("ShopEasy"));
 
-    private final Executor executor = Executors.newFixedThreadPool(shops.size(), new ThreadFactory() {
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r);
-            t.setDaemon(true);
-            return t;
-        }
+    private final Executor executor = Executors.newFixedThreadPool(shops.size(), r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        return t;
     });
 
     public List<String> findPricesSequential(String product) {
@@ -44,7 +41,7 @@ public class BestPriceFinder {
 
     public List<String> findPricesFuture(String product) {
         List<CompletableFuture<String>> priceFutures = findPricesStream(product)
-                .collect(Collectors.<CompletableFuture<String>>toList());
+                .collect(Collectors.toList());
 
         return priceFutures.stream()
                 .map(CompletableFuture::join)

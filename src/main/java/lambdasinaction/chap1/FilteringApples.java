@@ -33,26 +33,6 @@ public class FilteringApples{
         System.out.println(weirdApples);
     }
 
-    public static List<Apple> filterGreenApples(List<Apple> inventory){
-        List<Apple> result = new ArrayList<>();
-        for (Apple apple: inventory){
-            if ("green".equals(apple.getColor())) {
-                result.add(apple);
-            }
-        }
-        return result;
-    }
-
-    public static List<Apple> filterHeavyApples(List<Apple> inventory){
-        List<Apple> result = new ArrayList<>();
-        for (Apple apple: inventory){
-            if (apple.getWeight() > 150) {
-                result.add(apple);
-            }
-        }
-        return result;
-    }
-
     public static boolean isGreenApple(Apple apple) {
         return "green".equals(apple.getColor()); 
     }
