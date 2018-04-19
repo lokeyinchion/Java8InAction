@@ -23,6 +23,11 @@ public class BestPriceFinder {
         return t;
     });
 
+    /**
+     * @desc getPrice()/applyDiscount各模拟耗时1s,5个shops流式顺序调用耗时10s左右,全同步
+     * @param product
+     * @return
+     */
     public List<String> findPricesSequential(String product) {
         return shops.stream()
                 .map(shop -> shop.getPrice(product))
@@ -31,6 +36,11 @@ public class BestPriceFinder {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @desc getPrice()/applyDiscount各模拟耗时1s,5个shops并行调用耗时4s(4个shop共2s,最后一个2s)左右,受限于cpu数量4
+     * @param product
+     * @return
+     */
     public List<String> findPricesParallel(String product) {
         return shops.parallelStream()
                 .map(shop -> shop.getPrice(product))
@@ -39,6 +49,11 @@ public class BestPriceFinder {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @desc 具体调用findPricesStream(),5个shops并行调用耗时2.2左右
+     * @param product
+     * @return
+     */
     public List<String> findPricesFuture(String product) {
         List<CompletableFuture<String>> priceFutures = findPricesStream(product)
                 .collect(Collectors.toList());
@@ -55,6 +70,11 @@ public class BestPriceFinder {
                 .map(future -> future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)));
     }
 
+    /**
+     * @desc 具体调用findPricesStream(),5个shops并行调用耗时2.4左右
+     * @param product
+     * @return
+     */
     public void printPricesStream(String product) {
         long start = System.nanoTime();
         CompletableFuture[] futures = findPricesStream(product)
